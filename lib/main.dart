@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-
 import 'screens/home_screen.dart';
 import 'screens/hotel_search_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/ai_itinerary_screen.dart';
+import 'screens/places_screen.dart';
 
 void main() {
   runApp(const TravelApp());
@@ -23,7 +23,7 @@ class TravelApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF087F8C),
         ),
-        scaffoldBackgroundColor: const Color(0xFFF7F9FC),
+        scaffoldBackgroundColor: const Color(0xFFF5F7FB),
       ),
       home: const MainNavigation(),
     );
@@ -40,12 +40,23 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int selectedIndex = 0;
 
-  final List<Widget> screens = const [
-    HomeScreen(),
-    HotelSearchScreen(),
-    MapScreen(),
-    AiItineraryScreen(),
+  List<Widget> get screens => [
+    HomeScreen(
+      onNavigate: navigateTo,
+    ),
+    const HotelSearchScreen(),
+    const PlacesScreen(),
+    const AiItineraryScreen(),
+
   ];
+
+  void navigateTo(int index) {
+    if (index < 0 || index >= screens.length) return;
+
+    setState(() {
+      selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +69,7 @@ class _MainNavigationState extends State<MainNavigation> {
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
+        onDestinationSelected: navigateTo,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home_outlined),
@@ -75,9 +82,9 @@ class _MainNavigationState extends State<MainNavigation> {
             label: 'Hotels',
           ),
           NavigationDestination(
-            icon: Icon(Icons.map_outlined),
-            selectedIcon: Icon(Icons.map),
-            label: 'Map',
+            icon: Icon(Icons.explore_outlined),
+            selectedIcon: Icon(Icons.explore),
+            label: 'Places',
           ),
           NavigationDestination(
             icon: Icon(Icons.auto_awesome_outlined),
