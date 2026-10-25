@@ -141,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                 child: _categoryCard(
                   'AI Trip',
                   Icons.auto_awesome,
-                      () => onNavigate(3),
+                      () => onNavigate(4),
                 ),
               ),
             ],
@@ -196,6 +196,49 @@ class HomeScreen extends StatelessWidget {
               context,
               'Cambodia Resort',
               'Cambodia',
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          const SizedBox(height: 28),
+
+          const Text(
+            'Popular restaurants',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 14),
+          SizedBox(
+            height: 190,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _restaurantPreview(
+                  title: 'Khmer Restaurant',
+                  location: 'Cambodian cuisine',
+                  imagePath: 'assets/images/resturant.jpg',
+                ),
+                _restaurantPreview(
+                  title: 'Riverside Dining',
+                  location: 'Riverside views',
+                  imagePath: 'assets/images/resturant_1.jpg',
+                ),
+                _restaurantPreview(
+                  title: 'Garden Restaurant',
+                  location: 'Relaxed atmosphere',
+                  imagePath: 'assets/images/resturant_2.jpg',
+                ),
+                _restaurantPreview(
+                  title: 'Local Dining',
+                  location: 'Cambodian food',
+                  imagePath: 'assets/images/resturant_3.jpg',
+                ),
+                _restaurantPreview(
+                  title: 'Restaurant View',
+                  location: 'Evening dining',
+                  imagePath: 'assets/images/resturant_4.jpg',
+                ),
+              ],
             ),
           ),
 
@@ -307,6 +350,52 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const Icon(Icons.arrow_forward_ios, size: 18),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _restaurantPreview({
+    required String title,
+    required String location,
+    required String imagePath,
+  }) {
+    return Container(
+      width: 220,
+      margin: const EdgeInsets.only(right: 12),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              imagePath,
+              height: 125,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                height: 125,
+                color: Colors.grey.shade200,
+                alignment: Alignment.center,
+                child: const Icon(Icons.restaurant, size: 38),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 9, 12, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 3),
+                  Text(location, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: Colors.black54, fontSize: 12)),
                 ],
               ),
             ),

@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
+
 import 'screens/home_screen.dart';
 import 'screens/hotel_search_screen.dart';
+import 'screens/places_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/ai_itinerary_screen.dart';
-import 'screens/places_screen.dart';
+import 'screens/booking_history_screen.dart';
 
 void main() {
   runApp(const TravelApp());
@@ -40,14 +41,15 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int selectedIndex = 0;
 
-  List<Widget> get screens => [
+  late final List<Widget> screens = [
     HomeScreen(
       onNavigate: navigateTo,
     ),
     const HotelSearchScreen(),
     const PlacesScreen(),
-    const AiItineraryScreen(),
-
+    const MapScreen(),
+    const AIItineraryScreen(),
+    const BookingHistoryScreen(),
   ];
 
   void navigateTo(int index) {
@@ -87,9 +89,19 @@ class _MainNavigationState extends State<MainNavigation> {
             label: 'Places',
           ),
           NavigationDestination(
+            icon: Icon(Icons.map_outlined),
+            selectedIcon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          NavigationDestination(
             icon: Icon(Icons.auto_awesome_outlined),
             selectedIcon: Icon(Icons.auto_awesome),
             label: 'AI Trip',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.book_online_outlined),
+            selectedIcon: Icon(Icons.book_online),
+            label: 'Bookings',
           ),
         ],
       ),

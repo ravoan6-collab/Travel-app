@@ -7,9 +7,14 @@ import '../models/hotel.dart';
 import '../models/destination.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://127.0.0.1:8000/api';
-  // Android Emulator: use 10.0.2.2 for your computer's localhost.
-  // Windows desktop: use localhost if the backend runs on your PC.
+  // Override when launching with --dart-define=API_BASE_URL=http://10.0.2.2:8000/api
+  // Android Emulator: 10.0.2.2 reaches the host computer.
+  // Windows desktop / Chrome: use http://127.0.0.1:8000/api.
+  // A physical phone needs your computer's LAN IP address.
+  static const String baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://127.0.0.1:8000/api',
+  );
 
 
   static const Duration timeout = Duration(seconds: 15);
