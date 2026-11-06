@@ -1,5 +1,5 @@
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class BookingStore extends ChangeNotifier {
   BookingStore._();
@@ -12,21 +12,39 @@ class BookingStore extends ChangeNotifier {
       List.unmodifiable(_bookings);
 
   void addBooking(Map<String, dynamic> booking) {
-    _bookings.insert(
-      0,
-      Map<String, dynamic>.from(booking),
-    );
+    _bookings.insert(0, booking);
     notifyListeners();
+  }
+
+  void confirmBooking(String bookingId) {
+    final index = _bookings.indexWhere(
+          (booking) => booking['id'].toString() == bookingId,
+    );
+
+    if (index == -1) return;
+
+    if (_bookings[index]['status'] == 'Pending') {
+      _bookings[index]['status'] = 'Confirmed';
+      notifyListeners();
+    }
   }
 
   void cancelBooking(String bookingId) {
     final index = _bookings.indexWhere(
-          (booking) => booking['id'] == bookingId,
+          (booking) => booking['id'].toString() == bookingId,
     );
 
     if (index == -1) return;
 
     _bookings[index]['status'] = 'Cancelled';
+    notifyListeners();
+  }
+
+  void deleteBooking(String bookingId) {
+    _bookings.removeWhere(
+          (booking) => booking['id'].toString() == bookingId,
+    );
+
     notifyListeners();
   }
 

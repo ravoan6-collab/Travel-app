@@ -1,11 +1,17 @@
+
 import 'package:flutter/material.dart';
 
+// Existing screens
 import 'screens/home_screen.dart';
 import 'screens/hotel_search_screen.dart';
 import 'screens/places_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/ai_itinerary_screen.dart';
 import 'screens/booking_history_screen.dart';
+
+// Dashboard screens
+import 'screens/dashboard/user_dashboard_screen.dart';
+import 'screens/admin/admin_dashboard_screen.dart';
 
 void main() {
   runApp(const TravelApp());
@@ -19,6 +25,7 @@ class TravelApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AI Travel',
+
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -26,6 +33,12 @@ class TravelApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color(0xFFF5F7FB),
       ),
+
+      // Named routes
+      routes: {
+        '/admin': (context) => const AdminDashboardScreen(),
+      },
+
       home: const MainNavigation(),
     );
   }
@@ -50,14 +63,23 @@ class _MainNavigationState extends State<MainNavigation> {
     const MapScreen(),
     const AIItineraryScreen(),
     const BookingHistoryScreen(),
+    const UserDashboardScreen(),
   ];
 
+  // Change bottom navigation screen
   void navigateTo(int index) {
-    if (index < 0 || index >= screens.length) return;
+    if (index < 0 || index >= screens.length) {
+      return;
+    }
 
     setState(() {
       selectedIndex = index;
     });
+  }
+
+  // Open Admin Dashboard
+  void openAdminDashboard() {
+    Navigator.pushNamed(context, '/admin');
   }
 
   @override
@@ -69,6 +91,22 @@ class _MainNavigationState extends State<MainNavigation> {
           children: screens,
         ),
       ),
+
+      // Temporary Admin access button for testing
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: openAdminDashboard,
+        backgroundColor: const Color(0xFF087F8C),
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.admin_panel_settings),
+        label: const Text(
+          'Admin',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+
+      // Bottom Navigation
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
         onDestinationSelected: navigateTo,
@@ -102,6 +140,11 @@ class _MainNavigationState extends State<MainNavigation> {
             icon: Icon(Icons.book_online_outlined),
             selectedIcon: Icon(Icons.book_online),
             label: 'Bookings',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.dashboard_outlined),
+            selectedIcon: Icon(Icons.dashboard),
+            label: 'Dashboard',
           ),
         ],
       ),
